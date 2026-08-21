@@ -71,6 +71,6 @@ State is client-side only; reloading resets to the seed.
 
 ## Deployment
 
-Pushes to `main` build and publish to GitHub Pages via
-`.github/workflows/deploy.yml`. The build uses a relative `base`, so it works
+Pushes to `claude/confident-hawking-5gea11` build and publish to GitHub Pages
+via `.github/workflows/deploy.yml`. The build uses a relative `base`, so it works
 from a project subpath as well as the domain root.
