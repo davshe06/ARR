@@ -23,10 +23,10 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      # Requires Pages to be enabled for the repo with "GitHub Actions" as the
+      # source (Settings → Pages). The workflow token cannot create the site.
       - name: Configure Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - run: npm ci
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
