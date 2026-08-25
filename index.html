@@ -15,5 +15,19 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      /* If the bundle never loads, React mounts nothing and the page is a
+         blank white sheet with no explanation. Say what happened instead.
+         A late mount overwrites this, so a slow connection costs nothing. */
+      setTimeout(function () {
+        var root = document.getElementById('root');
+        if (!root || root.childElementCount) return;
+        root.innerHTML =
+          '<div style="font:15px/1.6 system-ui,sans-serif;color:#1d1f20;max-width:34em;margin:80px auto;padding:0 24px">' +
+          '<strong>The Recruiting Bullpen didn\u2019t load.</strong><br>' +
+          'The page asset failed to fetch \u2014 usually a cached copy of this page pointing at an old build. ' +
+          'Hard-refresh (Ctrl/Cmd + Shift + R) to pick up the current one.</div>';
+      }, 4000);
+    </script>
   </body>
 </html>

@@ -79,7 +79,12 @@ State is client-side only; reloading resets to the seed.
 ## Deployment
 
 Pushes to `main` build and publish to GitHub Pages via
-`.github/workflows/deploy.yml`. Development happens on
+`.github/workflows/deploy.yml`. Assets build to fixed names
+(`assets/index.js`, `assets/index.css`) rather than content hashes: a browser
+or CDN edge holding the previous `index.html` across a deploy would otherwise
+request a hashed filename the new deployment no longer has, and the 404 would
+leave a blank page. `index.html` also carries a small fallback that explains
+itself if the bundle never loads. Development happens on
 `claude/confident-hawking-5gea11`, which carries the same tree; `main` is the
 branch the `github-pages` environment permits deployments from. The build uses a relative `base`, so it works
 from a project subpath as well as the domain root.
