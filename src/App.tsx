@@ -13,6 +13,7 @@ import { EqcDrawer } from './components/overlays/EqcDrawer';
 import { MpcDrawer } from './components/overlays/MpcDrawer';
 import { ReqDrawer } from './components/overlays/ReqDrawer';
 import { SubmittalNudgeDialog, SubmittalStatusDialog } from './components/overlays/SubmittalDialogs';
+import { buildInfo } from './lib/format';
 import { useBullpen } from './state/useBullpen';
 
 function Today({ app }: { app: ReturnType<typeof useBullpen> }) {
@@ -82,6 +83,10 @@ export default function App() {
             line="Stub route. Candidate search and the full MPC bench are not part of this prototype."
           />
         )}
+      </div>
+      <div className="build-stamp">
+        Build {buildInfo().build}
+        {buildInfo().at && ` · ${buildInfo().at}`}
       </div>
       <Overlays app={app} />
       {app.toast && <div className="toast">{app.toast}</div>}

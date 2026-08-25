@@ -10,11 +10,38 @@
       href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;700&family=Barlow+Condensed:wght@400;600&display=swap"
       rel="stylesheet"
     />
+    <meta name="build" content="__BUILD__" />
+    <meta name="build-at" content="__BUILT_AT__" />
     <title>The Recruiting Bullpen</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      /* The document is the whole app now, so a stale copy sitting in a
+         browser or CDN cache renders an old page with no other symptom and
+         survives a refresh. Ask the server which build is current, and reload
+         once if this copy is behind. Failure here is silent by design — the
+         page already works without it. */
+      (function () {
+        try {
+          var meta = document.querySelector('meta[name="build"]');
+          var mine = meta && meta.content;
+          if (!mine || mine.charAt(0) === '_') return;
+          fetch('./version.json?t=' + Date.now(), { cache: 'no-store' })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (v) {
+              if (!v || !v.build || v.build === mine) return;
+              try {
+                if (sessionStorage.getItem('bullpen-build') === v.build) return;
+                sessionStorage.setItem('bullpen-build', v.build);
+              } catch (e) { /* private mode: reload once anyway */ }
+              location.reload();
+            })
+            .catch(function () {});
+        } catch (e) { /* no fetch, no problem */ }
+      })();
+    </script>
     <script>
       /* If the bundle never loads, React mounts nothing and the page is a
          blank white sheet with no explanation. Say what happened instead.

@@ -1117,3 +1117,13 @@ textarea.input {
   letter-spacing: 0.04em;
   box-shadow: var(--shadow-hover);
 }
+
+/* Build stamp — so a stale page can be identified on sight. */
+.build-stamp {
+  margin-top: 34px;
+  text-align: right;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 40%, transparent);
+}

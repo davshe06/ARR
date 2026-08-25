@@ -94,7 +94,15 @@ document, so a cached HTML naming a stale bundle, or a CDN edge serving new
 HTML ahead of new assets, cannot leave a blank page. `index.html` also carries
 a small fallback that explains itself if the page somehow fails to mount.
 
-For local `npm run dev` this is irrelevant — Vite serves modules directly. Development happens on
+For local `npm run dev` this is irrelevant — Vite serves modules directly.
+
+Because the document *is* the app, a stale copy of it in a browser or CDN cache
+renders an old page with no other symptom. Two things guard against that: every
+build stamps its commit into a `<meta name="build">` tag and writes the same id
+to `version.json`, and the page fetches that file with `cache: 'no-store'` on
+load — if the server is ahead, the page reloads itself once (guarded by
+`sessionStorage`, so it cannot loop). The build id is also printed at the
+bottom right of the page, so a stale copy can be identified on sight. Development happens on
 `claude/confident-hawking-5gea11`, which carries the same tree; `main` is the
 branch the `github-pages` environment permits deployments from. The build uses a relative `base`, so it works
 from a project subpath as well as the domain root.

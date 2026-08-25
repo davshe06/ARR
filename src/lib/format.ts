@@ -26,3 +26,15 @@ export function marketedLabel(mpc: Mpc): string {
   const replies = mpc.log.filter((t) => t.outcome.startsWith('Reply')).length;
   return `${sent} sent · ${replies} ${replies === 1 ? 'reply' : 'replies'}`;
 }
+
+/** Build identity, stamped into the document at build time. Lets a stale page
+    be identified on sight rather than guessed at. */
+export function buildInfo(): { build: string; at: string } {
+  const read = (name: string) =>
+    document.querySelector<HTMLMetaElement>(`meta[name="${name}"]`)?.content ?? '';
+  const build = read('build');
+  return {
+    build: build && build.charAt(0) !== '_' ? build : 'dev',
+    at: read('build-at').charAt(0) === '_' ? '' : read('build-at'),
+  };
+}
