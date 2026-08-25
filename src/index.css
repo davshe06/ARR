@@ -64,6 +64,20 @@
   --shadow-md: 0 3px 10px color-mix(in srgb, #2b2b2d 16%, transparent);
   --shadow-lg: 0 12px 32px color-mix(in srgb, #2b2b2d 22%, transparent);
 
+  /* Page ground — a teal wash layered over the system at the client's
+     direction. The handoff specifies a flat --color-bg with no gradients, so
+     these are the one deliberate departure; --color-bg stays as the fallback
+     and as the value everything else was tuned against. */
+  --color-teal-100: #e6f2f0;
+  --color-teal-200: #d5e9e6;
+  --color-teal-300: #c3ded9;
+  --gradient-page: linear-gradient(
+    180deg,
+    var(--color-teal-100) 0%,
+    var(--color-teal-200) 42%,
+    var(--color-teal-300) 100%
+  );
+
   /* This design's own values, layered on the system scale. */
   --radius-card: 14px;
   --radius-control: 10px;
@@ -87,7 +101,10 @@
 
 body {
   margin: 0;
+  min-height: 100vh;
   background: var(--color-bg);
+  background-image: var(--gradient-page);
+  background-attachment: fixed;
   color: var(--color-text);
   font-family: var(--font-body);
   font-size: 15px;

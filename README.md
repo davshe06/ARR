@@ -25,6 +25,13 @@ token stylesheet does.
 Fixed 1440px canvas with a 1200px floor, per the handoff — there are no
 responsive breakpoints and no mobile design.
 
+**One deliberate departure from the handoff:** the page ground is a soft teal
+gradient (`--gradient-page`, built from `--color-teal-100…300` in
+`src/index.css`) rather than the specified flat `--color-bg`, so the white
+cards lift off the page. The handoff calls for no gradients and carries no teal
+in its ramps; this was requested. Reverting is two lines — drop
+`background-image` and `background-attachment` from `body`.
+
 ```
 src/
   index.css              tokens ported from industry-tokens.css, then the
