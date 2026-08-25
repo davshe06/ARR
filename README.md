@@ -96,6 +96,14 @@ a small fallback that explains itself if the page somehow fails to mount.
 
 For local `npm run dev` this is irrelevant — Vite serves modules directly.
 
+**The site works under either Pages source setting.** If Pages publishes the
+Actions artifact, `index.html` is the built page. If it publishes the branch
+instead, the served `index.html` is Vite's dev entry, whose `/src/main.tsx`
+cannot execute as a module when served as plain text — so that tag carries an
+`onerror` that hands over to `app.html`, a committed copy of the built page
+that `npm run build` refreshes. `app.html` is build output kept in the tree on
+purpose; rebuild before committing if you change the app.
+
 Because the document *is* the app, a stale copy of it in a browser or CDN cache
 renders an old page with no other symptom. Two things guard against that: every
 build stamps its commit into a `<meta name="build">` tag and writes the same id

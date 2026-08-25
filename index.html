@@ -16,7 +16,17 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <!-- Vite's dev entry. Vite replaces this tag at build time, so it only
+         ever runs when this file is served raw — which is exactly what
+         happens if GitHub Pages is set to publish the branch instead of the
+         Actions artifact. A .tsx file served as plain text is refused as a
+         module, nothing mounts, and the page dies silently; onerror catches
+         that and hands over to the built copy committed alongside it. -->
+    <script
+      type="module"
+      src="/src/main.tsx"
+      onerror="location.replace('./app.html' + location.search + location.hash)"
+    ></script>
     <script>
       /* The document is the whole app now, so a stale copy sitting in a
          browser or CDN cache renders an old page with no other symptom and

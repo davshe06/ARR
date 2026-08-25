@@ -56,5 +56,9 @@ html = html.replace('__BUILD__', build).replace('__BUILT_AT__', builtAt);
 
 writeFileSync(htmlPath, html);
 writeFileSync(join(dist, 'version.json'), `${JSON.stringify({ build, at: builtAt })}\n`);
+/* Committed alongside the source so the repository tree itself serves a
+   working app. If Pages publishes the branch rather than the Actions
+   artifact, the dev entry's onerror hands over to this file. */
+writeFileSync('app.html', html);
 rmSync(join(dist, 'assets'), { recursive: true, force: true });
 console.log(`inlined ${inlinedJs} script(s) and ${inlinedCss} stylesheet(s) into ${htmlPath} (build ${build})`);
