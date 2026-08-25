@@ -39,6 +39,7 @@ export function RequisitionsView({ app }: { app: Bullpen }) {
               <td className="cell-flush">
                 <div className="eqc-name">
                   {job.num} · {job.title}
+                  {app.isHotJob(job.id) && <span className="tag tag-accent tag-inline">Day sheet</span>}
                 </div>
                 <div className="eqc-role">{job.skills.join(' · ')}</div>
               </td>

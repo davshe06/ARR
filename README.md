@@ -54,8 +54,9 @@ without touching a component. `EVENTS`, `EVENT_TYPES` and the first records of
 `JOBS`, `EQC_CALLS` and `MPCS` are copied verbatim from the design; the rest
 extend the same shapes to a full day:
 
-- **24 requisitions** — the four flagged `hot: true` fill the 2×2 grid; all 24
-  sit behind the "All 24 reqs" link.
+- **24 requisitions** — the four flagged `hot: true` seed the 2×2 grid, which
+  the recruiter can then change from any req's drawer; all 24 sit behind the
+  "All 24 reqs" link.
 - **22 EQC calls** — one per person on assignment, with week number and due
   state (overdue, first call, today, tomorrow, this week).
 - **8 MPCs** with marketing logs — the top three are the cards in section 03.
@@ -70,7 +71,8 @@ extend the same shapes to a full day:
 | Legend | `Tint` / `Solid` switches every block between the two fills. |
 | Open record | Opens the record the event was booked against, when it has one. |
 | Work the req | Req drawer: description, must-haves, client contact, submittals. |
-| All 24 reqs | The Requisitions route — the full desk, each row opening the drawer. |
+| All 24 reqs | The Requisitions route — the full desk, each row opening the drawer; the four currently on the day sheet are marked. |
+| Day sheet (in the req drawer) | Swaps this req into the Hot Jobs 2×2. The grid holds four, so adding a fifth asks which one comes off; a req already on the day sheet can be taken off, leaving a slot open. |
 | EQC row | Check-in drawer: assignment detail, notes, **Log check-in** marks it complete and drops it out of the due list (re-openable). |
 | MPC card | Candidate profile with the pitch and the marketing log expanded. |
 | Start calling | Walks the day's call list one record at a time — every EQC check-in still due, then the live MPCs — logging or skipping each. |

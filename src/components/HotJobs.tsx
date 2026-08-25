@@ -1,4 +1,4 @@
-import { HOT_JOBS, JOBS } from '../data/seed';
+import { JOBS } from '../data/seed';
 import type { Job } from '../data/types';
 import type { Bullpen } from '../state/useBullpen';
 import { SectionHead } from './SectionHead';
@@ -44,7 +44,7 @@ export function HotJobs({ app }: { app: Bullpen }) {
         action={{ label: `All ${JOBS.length} reqs`, onClick: () => app.setRoute('requisitions') }}
       />
       <div className="jobs-grid">
-        {HOT_JOBS.map((job) => (
+        {app.hotJobs.map((job) => (
           <JobCard key={job.id} job={job} onOpen={() => app.setOverlay({ kind: 'req', id: job.id })} />
         ))}
       </div>

@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { DESK, EQC_CALLS, EVENTS, JOBS, MPCS, SUBMITTALS, TOP_MPCS } from '../data/seed';
-import type { DeskSubmittal, EqcCall, MarketingTouch, Mpc, SubmittalStatus } from '../data/types';
+import { DESK, EQC_CALLS, EVENTS, HOT_JOB_SLOTS, JOBS, MPCS, SUBMITTALS, TOP_MPCS } from '../data/seed';
+import type { DeskSubmittal, EqcCall, Job, MarketingTouch, Mpc, SubmittalStatus } from '../data/types';
 
 export type Route = 'today' | 'pipeline' | 'requisitions' | 'candidates';
 
@@ -41,6 +41,11 @@ export function useBullpen() {
   const [mpcs, setMpcs] = useState<Mpc[]>(() => MPCS.map((m) => ({ ...m, log: m.log.map((l) => ({ ...l })) })));
   const [showLogged, setShowLogged] = useState(false);
   const [submittals, setSubmittals] = useState<DeskSubmittal[]>(() => SUBMITTALS.map((x) => ({ ...x })));
+  /* Which reqs fill the day sheet's 2x2. Seeded from the hot flag, then the
+     recruiter's to change from any req's drawer. */
+  const [hotJobIds, setHotJobIds] = useState<string[]>(() =>
+    JOBS.filter((job) => job.hot).map((job) => job.id),
+  );
 
   const [overlay, setOverlay] = useState<Overlay | null>(null);
   const [queue, setQueue] = useState<QueueStop[]>([]);
@@ -171,6 +176,42 @@ export function useBullpen() {
   const closeQueue = useCallback(() => setQueueIndex(null), []);
 
   const jobById = useCallback((id: string) => JOBS.find((j) => j.id === id), []);
+
+  const hotJobs = useMemo(
+    () => hotJobIds.map((id) => JOBS.find((job) => job.id === id)).filter((job): job is Job => Boolean(job)),
+    [hotJobIds],
+  );
+  const isHotJob = useCallback((id: string) => hotJobIds.includes(id), [hotJobIds]);
+  const hotSlotsFree = HOT_JOB_SLOTS - hotJobIds.length;
+
+  const addHotJob = useCallback(
+    (id: string) => {
+      setHotJobIds((prev) => (prev.includes(id) ? prev : [...prev, id]));
+      const job = JOBS.find((j) => j.id === id);
+      note(`${job?.title ?? 'Req'} added to hot jobs`);
+    },
+    [note],
+  );
+
+  const removeHotJob = useCallback(
+    (id: string) => {
+      setHotJobIds((prev) => prev.filter((x) => x !== id));
+      const job = JOBS.find((j) => j.id === id);
+      note(`${job?.title ?? 'Req'} taken off the day sheet`);
+    },
+    [note],
+  );
+
+  /** Put `inId` in the slot `outId` currently holds, keeping the order. */
+  const swapHotJob = useCallback(
+    (outId: string, inId: string) => {
+      setHotJobIds((prev) => prev.map((x) => (x === outId ? inId : x)));
+      const out = JOBS.find((j) => j.id === outId);
+      const into = JOBS.find((j) => j.id === inId);
+      note(`${into?.title ?? 'Req'} swapped in for ${out?.title ?? 'req'}`);
+    },
+    [note],
+  );
   const eqcById = useCallback((id: string) => eqcCalls.find((c) => c.id === id), [eqcCalls]);
   const mpcById = useCallback((id: string) => mpcs.find((m) => m.id === id), [mpcs]);
 
@@ -197,6 +238,12 @@ export function useBullpen() {
     topMpcs,
     submittals,
     submittalById,
+    hotJobs,
+    isHotJob,
+    hotSlotsFree,
+    addHotJob,
+    removeHotJob,
+    swapHotJob,
     setSubmittalStatus,
     requestUpdate,
     jobById,

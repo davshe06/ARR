@@ -566,6 +566,64 @@ textarea.input {
   color: var(--color-accent);
 }
 
+/* Swap picker inside the req drawer. */
+.swap-list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-control);
+  overflow: hidden;
+}
+.swap-option {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--color-divider);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+}
+.swap-option:last-child {
+  border-bottom: 0;
+}
+.swap-option:hover {
+  background: color-mix(in srgb, var(--color-text) 5%, transparent);
+}
+.swap-option-title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.swap-option-company {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-70);
+}
+.swap-option-action {
+  margin-left: auto;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-accent-700);
+}
+.tag-inline {
+  margin-left: 8px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  vertical-align: 1px;
+}
+
 /* ══════════════════════════════════════════════════════════════════════════
    02 · EQC calls
    ══════════════════════════════════════════════════════════════════════ */

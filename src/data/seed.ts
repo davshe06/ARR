@@ -525,7 +525,9 @@ export const MPCS: Mpc[] = [
   },
 ];
 
-/** The four cards the day sheet leads with. */
+/** The 2x2 grid on the day sheet holds exactly this many reqs. */
+export const HOT_JOB_SLOTS = 4;
+/** The reqs the day sheet opens with; the recruiter can swap these out. */
 export const HOT_JOBS = JOBS.filter((job) => job.hot);
 /** The MPC cards section 03 shows. */
 export const TOP_MPCS = MPCS.slice(0, 3);

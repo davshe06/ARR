@@ -1,6 +1,83 @@
+import { useState } from 'react';
 import type { Job } from '../../data/types';
 import type { Bullpen } from '../../state/useBullpen';
 import { Overlay } from './Overlay';
+
+/** Put this req on the day sheet, or take it off. The 2x2 holds four, so
+    adding a fifth means naming the one it replaces. */
+function DaySheetControl({ job, app }: { job: Job; app: Bullpen }) {
+  const [picking, setPicking] = useState(false);
+  const isHot = app.isHotJob(job.id);
+
+  if (isHot) {
+    return (
+      <>
+        <div className="block-label">Day sheet</div>
+        <p className="body-copy">This req is one of the hot jobs on the day sheet.</p>
+        <button
+          type="button"
+          className="btn btn-secondary btn-sm"
+          onClick={() => app.removeHotJob(job.id)}
+        >
+          Take off the day sheet
+        </button>
+      </>
+    );
+  }
+
+  if (picking) {
+    return (
+      <>
+        <div className="block-label">Swap into the hot jobs</div>
+        <p className="body-copy">Which one comes off to make room?</p>
+        <div className="swap-list">
+          {app.hotJobs.map((hot) => (
+            <button
+              key={hot.id}
+              type="button"
+              className="swap-option"
+              onClick={() => {
+                app.swapHotJob(hot.id, job.id);
+                setPicking(false);
+              }}
+            >
+              <span className="job-num">{hot.num}</span>
+              <span className="swap-option-title">{hot.title}</span>
+              <span className="swap-option-company">{hot.company}</span>
+              <span className="swap-option-action">Replace</span>
+            </button>
+          ))}
+        </div>
+        <button
+          type="button"
+          className="btn btn-secondary btn-sm"
+          style={{ marginTop: 14 }}
+          onClick={() => setPicking(false)}
+        >
+          Cancel
+        </button>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <div className="block-label">Day sheet</div>
+      <p className="body-copy">
+        {app.hotSlotsFree > 0
+          ? `Not on the day sheet. ${app.hotSlotsFree} hot job ${app.hotSlotsFree === 1 ? 'slot is' : 'slots are'} open.`
+          : 'Not on the day sheet. All four hot job slots are taken.'}
+      </p>
+      <button
+        type="button"
+        className="btn btn-secondary btn-sm"
+        onClick={() => (app.hotSlotsFree > 0 ? app.addHotJob(job.id) : setPicking(true))}
+      >
+        {app.hotSlotsFree > 0 ? 'Add to hot jobs' : 'Swap into hot jobs'}
+      </button>
+    </>
+  );
+}
 
 export function ReqDrawer({ job, app }: { job: Job; app: Bullpen }) {
   const close = () => app.setOverlay(null);
@@ -42,6 +119,8 @@ export function ReqDrawer({ job, app }: { job: Job; app: Bullpen }) {
           </span>
         ))}
       </div>
+
+      <DaySheetControl job={job} app={app} />
 
       <div className="block-label">Description</div>
       <p className="body-copy">{job.description}</p>
