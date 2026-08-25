@@ -1,7 +1,7 @@
 # The Recruiting Bullpen
 
 A functional prototype of the daily landing page for a Robert Half recruiter —
-**Charlotte · TDC desk, A. Whitcombe**. One screen that pulls together the day's
+**Charlotte · TDC desk, D. Sheehan**. One screen that pulls together the day's
 calendar, the hot requisitions to work, the EQC check-ins due with talent on
 assignment, and the MPC profiles being taken to market.
 

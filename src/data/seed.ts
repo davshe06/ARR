@@ -24,7 +24,7 @@ export const COMPACT_PX = 56;
 
 export const DESK: DeskInfo = {
   dayLabel: 'Tue 21 Aug 2026',
-  recruiterName: 'A. Whitcombe',
+  recruiterName: 'D. Sheehan',
   desk: 'Charlotte · TDC',
   now: 10.35,
 };
