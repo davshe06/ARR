@@ -4,6 +4,7 @@ import { EqcTable } from './components/EqcTable';
 import { HotJobs } from './components/HotJobs';
 import { RequisitionsView } from './components/RequisitionsView';
 import { StubView } from './components/StubView';
+import { Submittals } from './components/Submittals';
 import { TopMpcs } from './components/TopMpcs';
 import { TopNav } from './components/TopNav';
 import { ActivityDialog } from './components/overlays/ActivityDialog';
@@ -11,6 +12,7 @@ import { CallQueue } from './components/overlays/CallQueue';
 import { EqcDrawer } from './components/overlays/EqcDrawer';
 import { MpcDrawer } from './components/overlays/MpcDrawer';
 import { ReqDrawer } from './components/overlays/ReqDrawer';
+import { SubmittalNudgeDialog, SubmittalStatusDialog } from './components/overlays/SubmittalDialogs';
 import { useBullpen } from './state/useBullpen';
 
 function Today({ app }: { app: ReturnType<typeof useBullpen> }) {
@@ -22,6 +24,7 @@ function Today({ app }: { app: ReturnType<typeof useBullpen> }) {
           <EqcTable app={app} />
           <TopMpcs app={app} />
         </div>
+        <Submittals app={app} />
       </div>
       <CalendarPanel app={app} />
     </div>
@@ -42,6 +45,14 @@ function Overlays({ app }: { app: ReturnType<typeof useBullpen> }) {
   if (overlay.kind === 'eqc') {
     const call = app.eqcById(overlay.id);
     return call ? <EqcDrawer call={call} app={app} /> : null;
+  }
+  if (overlay.kind === 'sub-status') {
+    const sub = app.submittalById(overlay.id);
+    return sub ? <SubmittalStatusDialog sub={sub} app={app} /> : null;
+  }
+  if (overlay.kind === 'sub-nudge') {
+    const sub = app.submittalById(overlay.id);
+    return sub ? <SubmittalNudgeDialog sub={sub} app={app} /> : null;
   }
   const mpc = app.mpcById(overlay.id);
   return mpc ? <MpcDrawer mpc={mpc} app={app} /> : null;

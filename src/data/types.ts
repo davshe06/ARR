@@ -100,3 +100,20 @@ export interface DeskInfo {
   /** Decimal hours; drives the calendar's now-line. */
   now: number;
 }
+
+/** The ladder a submittal climbs once it is out to the client. */
+export type SubmittalStatus = 'Feedback' | '1st ICM' | '2nd ICM' | '3rd ICM' | 'Start' | 'Out';
+
+export interface DeskSubmittal {
+  id: string;
+  company: string;
+  candidate: string;
+  role: string;
+  /** Date the candidate went out to the client. */
+  submitted: string;
+  status: SubmittalStatus;
+  /** The salesperson who owns the client relationship. */
+  salesperson: string;
+  /** Set when an update has been requested; prototype state. */
+  askedAt: string | null;
+}

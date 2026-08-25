@@ -1,4 +1,14 @@
-import type { EqcCall, Mpc } from '../data/types';
+import type { EqcCall, Mpc, SubmittalStatus } from '../data/types';
+
+/** Status pills, drawn from the existing accent and neutral ramps: outline
+    while the client owes feedback, filled tint through the ICM ladder, solid
+    accent for a start, neutral once the submittal is dead. */
+export function statusClass(status: SubmittalStatus): string {
+  if (status === 'Start') return 'tag-strong';
+  if (status === 'Out') return 'tag-neutral';
+  if (status === 'Feedback') return 'tag-outline';
+  return 'tag-accent';
+}
 
 /** Check-ins whose due state has already slipped read as urgent. */
 export function isOverdue(call: EqcCall): boolean {

@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { DESK, EQC_CALLS, EVENTS, JOBS, MPCS, TOP_MPCS } from '../data/seed';
-import type { EqcCall, MarketingTouch, Mpc } from '../data/types';
+import { DESK, EQC_CALLS, EVENTS, JOBS, MPCS, SUBMITTALS, TOP_MPCS } from '../data/seed';
+import type { DeskSubmittal, EqcCall, MarketingTouch, Mpc, SubmittalStatus } from '../data/types';
 
 export type Route = 'today' | 'pipeline' | 'requisitions' | 'candidates';
 
@@ -8,6 +8,8 @@ export type Overlay =
   | { kind: 'req'; id: string }
   | { kind: 'eqc'; id: string }
   | { kind: 'mpc'; id: string }
+  | { kind: 'sub-status'; id: string }
+  | { kind: 'sub-nudge'; id: string }
   | { kind: 'activity'; subject?: string };
 
 export type QueueStop =
@@ -38,6 +40,7 @@ export function useBullpen() {
   const [eqcCalls, setEqcCalls] = useState<EqcCall[]>(() => EQC_CALLS.map((c) => ({ ...c })));
   const [mpcs, setMpcs] = useState<Mpc[]>(() => MPCS.map((m) => ({ ...m, log: m.log.map((l) => ({ ...l })) })));
   const [showLogged, setShowLogged] = useState(false);
+  const [submittals, setSubmittals] = useState<DeskSubmittal[]>(() => SUBMITTALS.map((x) => ({ ...x })));
 
   const [overlay, setOverlay] = useState<Overlay | null>(null);
   const [queue, setQueue] = useState<QueueStop[]>([]);
@@ -110,6 +113,42 @@ export function useBullpen() {
     [logActivity, note],
   );
 
+  const setSubmittalStatus = useCallback(
+    (id: string, status: SubmittalStatus) => {
+      let label = '';
+      setSubmittals((prev) =>
+        prev.map((sub) => {
+          if (sub.id !== id) return sub;
+          label = `${sub.candidate} · ${sub.company}`;
+          return { ...sub, status };
+        }),
+      );
+      logActivity({ kind: 'Submittal status', subject: label, note: `Moved to ${status}` });
+      note(`${label} — ${status}`);
+    },
+    [logActivity, note],
+  );
+
+  const requestUpdate = useCallback(
+    (id: string, message: string) => {
+      let who = '';
+      let label = '';
+      setSubmittals((prev) =>
+        prev.map((sub) => {
+          if (sub.id !== id) return sub;
+          who = sub.salesperson;
+          label = `${sub.candidate} · ${sub.company}`;
+          return { ...sub, askedAt: stamp() };
+        }),
+      );
+      logActivity({ kind: 'Update request', subject: label, note: message });
+      note(`Update requested from ${who}`);
+    },
+    [logActivity, note],
+  );
+
+  const submittalById = useCallback((id: string) => submittals.find((s) => s.id === id), [submittals]);
+
   /* ── Call queue: every EQC check-in still due, then the live MPCs.
      The list is fixed when "Start calling" is pressed — recomputing it as rows
      complete would pull the ground out from under the cursor. ───────────── */
@@ -156,6 +195,10 @@ export function useBullpen() {
     setShowLogged,
     mpcs,
     topMpcs,
+    submittals,
+    submittalById,
+    setSubmittalStatus,
+    requestUpdate,
     jobById,
     eqcById,
     mpcById,

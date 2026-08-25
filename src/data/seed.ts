@@ -8,11 +8,13 @@
 import type {
   CalEvent,
   DeskInfo,
+  DeskSubmittal,
   EqcCall,
   EventType,
   EventTypeStyle,
   Job,
   Mpc,
+  SubmittalStatus,
 } from './types';
 
 /** Calendar geometry: the day opens at 8:00 and each hour is 84px tall. */
@@ -527,3 +529,38 @@ export const MPCS: Mpc[] = [
 export const HOT_JOBS = JOBS.filter((job) => job.hot);
 /** The MPC cards section 03 shows. */
 export const TOP_MPCS = MPCS.slice(0, 3);
+
+/* ── Submittals ─────────────────────────────────────────────────────────────
+   Candidates out to clients, and where each one sits. Not part of the design
+   handoff — added for the desk's own pipeline view. */
+export const SUBMITTAL_STATUSES: SubmittalStatus[] = [
+  'Feedback',
+  '1st ICM',
+  '2nd ICM',
+  '3rd ICM',
+  'Start',
+  'Out',
+];
+
+export const SUBMITTALS: DeskSubmittal[] = [
+  { id: 's01', company: 'Halloran Group',        candidate: 'J. Okafor',        role: 'Sr. .NET Developer',      submitted: '18 Aug', status: '1st ICM',  salesperson: 'K. Marsden',   askedAt: null },
+  { id: 's02', company: 'Halloran Group',        candidate: 'P. Raman',         role: 'Full Stack .NET Developer', submitted: '19 Aug', status: 'Feedback', salesperson: 'K. Marsden',   askedAt: null },
+  { id: 's03', company: 'Pallas Robotics',       candidate: 'A. Sundaram',      role: 'ML Engineer',             submitted: '14 Aug', status: '2nd ICM',  salesperson: 'R. Oyelaran',  askedAt: null },
+  { id: 's04', company: 'Pallas Robotics',       candidate: 'K. Oyelaran',      role: 'AI Engineer',             submitted: '14 Aug', status: '2nd ICM',  salesperson: 'R. Oyelaran',  askedAt: null },
+  { id: 's05', company: 'Northgate Health',      candidate: 'H. Nakamura',      role: 'Sr. Data Scientist',      submitted: '15 Aug', status: '3rd ICM',  salesperson: 'T. Broussard', askedAt: null },
+  { id: 's06', company: 'Northgate Health',      candidate: 'C. Foster',        role: 'Data Scientist',          submitted: '20 Aug', status: 'Feedback', salesperson: 'T. Broussard', askedAt: null },
+  { id: 's07', company: 'Sable Aerospace',       candidate: 'D. Marsh',         role: 'Cloud / DevOps Engineer', submitted: '19 Aug', status: '1st ICM',  salesperson: 'J. Alcott',    askedAt: null },
+  { id: 's08', company: 'Sable Aerospace',       candidate: 'H. Kirchner',      role: 'Cloud Architect',         submitted: '16 Aug', status: '2nd ICM',  salesperson: 'J. Alcott',    askedAt: null },
+  { id: 's09', company: 'Ironwood Financial',    candidate: 'J. Castellan',     role: 'Salesforce Developer',    submitted: '15 Aug', status: 'Start',    salesperson: 'K. Marsden',   askedAt: null },
+  { id: 's10', company: 'Cascade Utilities',     candidate: 'G. Rutkowski',     role: 'SDET',                    submitted: '19 Aug', status: '1st ICM',  salesperson: 'J. Alcott',    askedAt: null },
+  { id: 's11', company: 'Trellis Payments',      candidate: 'E. Sandoval',      role: 'Sr. Java Engineer',       submitted: '20 Aug', status: '1st ICM',  salesperson: 'R. Oyelaran',  askedAt: null },
+  { id: 's12', company: 'Southgate Bank',        candidate: 'Y. Castellanos',   role: 'Security Analyst',        submitted: '19 Aug', status: 'Feedback', salesperson: 'T. Broussard', askedAt: null },
+  { id: 's13', company: 'Blue Harbor Logistics', candidate: 'R. Takahashi',     role: 'iOS Developer',           submitted: '19 Aug', status: '2nd ICM',  salesperson: 'K. Marsden',   askedAt: null },
+  { id: 's14', company: 'Corbin Legal Tech',     candidate: 'F. Delacroix',     role: 'Solutions Architect',     submitted: '20 Aug', status: '3rd ICM',  salesperson: 'J. Alcott',    askedAt: null },
+  { id: 's15', company: 'Vestal Analytics',      candidate: 'A. Zubairu',       role: 'Sr. Data Engineer',       submitted: '15 Aug', status: '3rd ICM',  salesperson: 'R. Oyelaran',  askedAt: null },
+  { id: 's16', company: 'Carraway Insurance',    candidate: 'O. Bekele',        role: 'ServiceNow Developer',    submitted: '16 Aug', status: '2nd ICM',  salesperson: 'T. Broussard', askedAt: null },
+  { id: 's17', company: 'Halcyon Biotech',       candidate: 'N. Oyelowo',       role: 'ML Engineer',             submitted: '15 Aug', status: 'Out',      salesperson: 'J. Alcott',    askedAt: null },
+  { id: 's18', company: 'Mercer Textile',        candidate: 'V. Krishnamurthy', role: 'Oracle DBA',              submitted: '17 Aug', status: 'Start',    salesperson: 'K. Marsden',   askedAt: null },
+  { id: 's19', company: 'Duplin Retail Group',   candidate: 'N. Ferreira',      role: 'BI Analyst',              submitted: '18 Aug', status: '1st ICM',  salesperson: 'R. Oyelaran',  askedAt: null },
+  { id: 's20', company: 'Lyric Media',           candidate: 'A. Lindgren',      role: 'Product Owner',           submitted: '13 Aug', status: 'Out',      salesperson: 'T. Broussard', askedAt: null },
+];

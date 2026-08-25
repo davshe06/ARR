@@ -41,7 +41,8 @@ src/
   lib/calendar.ts        hour → pixel geometry for the day calendar
   lib/format.ts          derived label helpers
   state/useBullpen.ts    every piece of prototype state and the writes
-  components/            nav, day sheet, hot jobs, EQC table, MPCs, calendar
+  components/            nav, day sheet, hot jobs, EQC table, MPCs,
+                         submittals, calendar
   components/overlays/   req drawer, EQC check-in, MPC profile, activity
                          dialog, "Start calling" queue
 ```
@@ -58,6 +59,8 @@ extend the same shapes to a full day:
 - **22 EQC calls** — one per person on assignment, with week number and due
   state (overdue, first call, today, tomorrow, this week).
 - **8 MPCs** with marketing logs — the top three are the cards in section 03.
+- **20 submittals** out to clients, each with the salesperson who owns the
+  account, drawn from the same candidates and companies as the reqs.
 
 ## Interactions
 
@@ -71,6 +74,7 @@ extend the same shapes to a full day:
 | EQC row | Check-in drawer: assignment detail, notes, **Log check-in** marks it complete and drops it out of the due list (re-openable). |
 | MPC card | Candidate profile with the pitch and the marketing log expanded. |
 | Start calling | Walks the day's call list one record at a time — every EQC check-in still due, then the live MPCs — logging or skipping each. |
+| Submittal row | **Change status** moves it along `Feedback → 1st / 2nd / 3rd ICM → Start → Out`; **Ask for update** opens a message to the account's salesperson, pre-written from the row, and stamps the row with when it was asked. Both land in the activity log. |
 | Log activity | Records a call / email / submittal / meeting against today. |
 | Week, Reschedule, Submit candidate, Pipeline, Candidates | Stubbed, as specified. |
 

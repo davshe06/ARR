@@ -673,6 +673,36 @@ textarea.input {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
+   04 · Submittals
+   ══════════════════════════════════════════════════════════════════════ */
+
+.sub-date {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.sub-actions {
+  text-align: right;
+  padding-right: 0;
+  white-space: nowrap;
+}
+.sub-actions .btn + .btn {
+  margin-left: 8px;
+}
+/* Row-scale button: the table is dense and .btn-sm's 32px crowds it. */
+.btn-row {
+  min-height: 26px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  padding: 3px 12px;
+}
+/* A start is the one state worth shouting; solid end of the accent ramp. */
+.tag-strong {
+  background: var(--color-accent-800);
+  border-color: var(--color-accent-800);
+  color: var(--color-bg);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
    Calendar
    ══════════════════════════════════════════════════════════════════════ */
 
